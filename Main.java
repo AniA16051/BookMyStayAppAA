@@ -1,16 +1,24 @@
 import java.util.Map;
 class BookMyStay {
     public static void main(String[] args) {
-        System.out.println("Room Search\n");
+        System.out.println("Booking Request Queue");
 
-        RoomInventory inventory = new RoomInventory();
-        Room single = new SingleRoom();
-        Room doubleRoom = new DoubleRoom();
-        Room suite = new SuiteRoom();
+        BookingRequestQueue bookingQueue = new BookingRequestQueue();
 
-        RoomSearchService searchService = new RoomSearchService();
+        // Create booking requests
+        Reservation r1 = new Reservation("Ani", "Single");
+        Reservation r2 = new Reservation("AVi", "Double");
+        Reservation r3 = new Reservation("Anirudh", "Suite");
 
-        searchService.searchAvailableRooms(inventory, single, doubleRoom, suite);
+        bookingQueue.addRequest(r1);
+        bookingQueue.addRequest(r2);
+        bookingQueue.addRequest(r3);
+
+        while (bookingQueue.hasPendingRequests()) {
+            Reservation current = bookingQueue.getNextRequest();
+            System.out.println("Processing booking for Guest: " + current.getGuestName() +
+                    ", Room Type: " + current.getRoomType());
+        }
     }
 
 }
