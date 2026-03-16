@@ -1,23 +1,22 @@
 import java.util.Map;
 class BookMyStay {
     public static void main(String[] args) {
-        System.out.println("Booking Request Queue");
+        System.out.println("Room Allocation Processing");
 
+        // 1. Setup Inventory and Allocation Service
+        RoomInventory inventory = new RoomInventory();
+        RoomAllocationService allocationService = new RoomAllocationService();
+
+        // 2. Setup Booking Queue (FIFO)
         BookingRequestQueue bookingQueue = new BookingRequestQueue();
+        bookingQueue.addRequest(new Reservation("Ani", "Single"));
+        bookingQueue.addRequest(new Reservation("AVi", "Single"));
+        bookingQueue.addRequest(new Reservation("Anirudh", "Suite"));
 
-        // Create booking requests
-        Reservation r1 = new Reservation("Ani", "Single");
-        Reservation r2 = new Reservation("AVi", "Double");
-        Reservation r3 = new Reservation("Anirudh", "Suite");
-
-        bookingQueue.addRequest(r1);
-        bookingQueue.addRequest(r2);
-        bookingQueue.addRequest(r3);
-
+        // 3. Process the Queue
         while (bookingQueue.hasPendingRequests()) {
-            Reservation current = bookingQueue.getNextRequest();
-            System.out.println("Processing booking for Guest: " + current.getGuestName() +
-                    ", Room Type: " + current.getRoomType());
+            Reservation request = bookingQueue.getNextRequest();
+            allocationService.allocateRoom(request, inventory);
         }
     }
 
