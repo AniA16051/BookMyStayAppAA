@@ -1,15 +1,26 @@
+import java.util.Map;
 class BookMyStay {
-
-    /**
-     * Application entry point.
-     * * This method is the first method executed
-     * * @param args Command-line arguments
-     */
     public static void main(String[] args) {
-        // Display the welcome message
-        System.out.println("Welcome to the Hotel Booking Management System");
+        System.out.println("Hotel Room Inventory Status\n");
 
-        // Confirm system initialization
-        System.out.println("System initialized successfully.");
+        RoomInventory inventory = new RoomInventory();
+        Map<String, Integer> availability = inventory.getRoomAvailability();
+
+        Room single = new SingleRoom();
+        Room doubleRoom = new DoubleRoom();
+        Room suite = new SuiteRoom();
+
+        System.out.println("Single Room:");
+        single.displayRoomDetails();
+        System.out.println("Available Rooms: " + availability.get("Single Room") + "\n");
+
+        System.out.println("Double Room:");
+        doubleRoom.displayRoomDetails();
+        System.out.println("Available Rooms: " + availability.get("Double Room") + "\n");
+
+        System.out.println("Suite Room:");
+        suite.displayRoomDetails();
+        System.out.println("Available Rooms: " + availability.get("Suite Room"));
     }
+
 }
