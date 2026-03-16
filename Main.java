@@ -1,15 +1,32 @@
 import java.util.Map;
+import java.util.Scanner;
 class BookMyStay {
-
     public static void main(String[] args) {
-        System.out.println("Booking History and Reporting\n");
-        BookingHistory history = new BookingHistory();
-        BookingReportService reportService = new BookingReportService();
-        history.addReservation(new Reservation("Ani", "Single"));
-        history.addReservation(new Reservation("AVi", "Double"));
-        history.addReservation(new Reservation("Anirudh", "Suite"));
+        System.out.println("Booking Validation");
+        Scanner scanner = new Scanner(System.in);
 
-        reportService.generateReport(history);
+        RoomInventory inventory = new RoomInventory();
+        ReservationValidator validator = new ReservationValidator();
+        BookingRequestQueue bookingQueue = new BookingRequestQueue();
+
+        try {
+            System.out.print("Enter guest name: ");
+            String guestName = scanner.nextLine();
+
+            System.out.print("Enter room type (Single/Double/Suite): ");
+            String roomType = scanner.nextLine();
+
+            validator.validate(guestName, roomType, inventory);
+
+            Reservation reservation = new Reservation(guestName, roomType + " Room");
+            bookingQueue.addRequest(reservation);
+            System.out.println("Booking successful for Guest: " + guestName
+                    + ", Room Type: " + roomType);
+        } catch (InvalidBookingException e){
+            System.out.println("Booking Failed"+e.getMessage());
+        }finally {
+            scanner.close();
+        }
     }
 
 }
